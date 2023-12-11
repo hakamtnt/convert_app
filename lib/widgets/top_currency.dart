@@ -11,13 +11,11 @@ class TopCurrency extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(15),
       height: 70,
-
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: blue,
-
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -27,7 +25,6 @@ class TopCurrency extends StatelessWidget {
             style: CustomText.myStyle,
           ),
           Text(price, style: CustomText.myStyle),
-
         ],
       ),
     );

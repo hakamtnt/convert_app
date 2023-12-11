@@ -14,24 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //Initial Variables
-
-  late Future<RatesModel> result;
-  late Future<RateList> rateListOfAll;
-  late Future<Map> allCurrencies;
-
   final formkey = GlobalKey<FormState>();
-
-  //Getting RatesModel and All Currencies
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      result = fetchRates();
-      rateListOfAll = fetchratesList();
-      allCurrencies = fetchCurrencies();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +29,14 @@ class _HomeState extends State<Home> {
         child: Form(
           key: formkey,
           child: FutureBuilder<RatesModel>(
-            future: result,
+            future: fetchRates(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
               return Center(
                 child: FutureBuilder<Map>(
-                    future: allCurrencies,
+                    future: fetchCurrencies(),
                     builder: (context, currSnapshot) {
                       if (currSnapshot.connectionState ==
                           ConnectionState.waiting) {
@@ -64,7 +47,7 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FutureBuilder<RateList>(
-                            future: rateListOfAll,
+                            future: fetchratesList(),
                             builder: (context, priceList) {
                               if (currSnapshot.connectionState ==
                                   ConnectionState.waiting) {
@@ -78,28 +61,32 @@ class _HomeState extends State<Home> {
                                   ),
                                   TopCurrency(
                                     currency: 'Indian Rupee',
-                                    price: priceList.data!.rate.inr.toString(),
+                                    price: priceList.data!.rate.inr
+                                        .toStringAsFixed(2),
                                   ),
                                   const SizedBox(
                                     height: 10,
                                   ),
                                   TopCurrency(
                                     currency: 'British Pound',
-                                    price: priceList.data!.rate.gbp.toString(),
+                                    price: priceList.data!.rate.gbp
+                                        .toStringAsFixed(2),
                                   ),
                                   const SizedBox(
                                     height: 10,
                                   ),
                                   TopCurrency(
                                     currency: 'Australia Dollar',
-                                    price: priceList.data!.rate.aud.toString(),
+                                    price: priceList.data!.rate.aud
+                                        .toStringAsFixed(2),
                                   ),
                                   const SizedBox(
                                     height: 10,
                                   ),
                                   TopCurrency(
                                     currency: 'Omani Rial',
-                                    price: priceList.data!.rate.omr.toString(),
+                                    price: priceList.data!.rate.omr
+                                        .toStringAsFixed(2),
                                   ),
                                 ],
                               );

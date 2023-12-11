@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:forget_password/screens/home.dart';
 import 'package:forget_password/screens/page_any_to_any.dart';
+import 'package:forget_password/screens/time_converter.dart';
 import 'package:forget_password/styles/colors.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -14,15 +15,10 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState
     extends State<BottomNavigation> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
    Home(),
     PageAnyToAny(),
-    Text(
-      'TOP N TECH',
-      style: optionStyle,
-    ),
+    TimeConverter(),
   ];
 
   void _onItemTapped(int index) {
@@ -44,7 +40,7 @@ class _BottomNavigationState
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.currency_exchange),
             label: 'USD To Any',
           ),
           BottomNavigationBarItem(
@@ -52,8 +48,8 @@ class _BottomNavigationState
             label: 'Any To Any',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'About Us',
+            icon: Icon(Icons.access_time),
+            label: 'Time Converter',
           ),
         ],
         currentIndex: _selectedIndex,

@@ -5,6 +5,7 @@ class CustomText {
     fontSize: 24,
     color: white,
     fontWeight: FontWeight.bold,
+    overflow: TextOverflow.ellipsis,
   );
   static  TextStyle textValue = TextStyle(
     fontSize: 16,

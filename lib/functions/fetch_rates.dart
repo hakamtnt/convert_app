@@ -1,5 +1,6 @@
-import 'package:http/http.dart' as http;
+import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 
 import '../models/currencies.dart';
 import '../models/ratesmodel.dart';
@@ -18,6 +19,17 @@ Future<Map> fetchCurrencies() async {
   final allCurrencies = allCurrenciesFromJson(response.body);
   return allCurrencies;
 }
+
+Future<List<String>> fetchAllCity() async {
+  var response = await http
+      .get(Uri.parse('https://timeapi.io/api/TimeZone/AvailableTimeZones'));
+  List<String> stringlist = (json.decode(response.body) as List<dynamic>).cast<String>();
+  //final allCity = getAllCity(response.body);
+print(stringlist);
+  return stringlist;
+}
+
+
 
 Future<RateList> fetchratesList() async {
   var response = await http.get(Uri.parse(

@@ -3,7 +3,8 @@ import 'dart:convert';
 RatesModel ratesModelFromJson(String str) =>
     RatesModel.fromJson(json.decode(str));
 
-String ratesModelToJson(RatesModel data) => json.encode(data.toJson());
+AllCity getAllCity (String str) => AllCity.fromJson(json.decode(str));
+
 
 class RatesModel {
   RatesModel({
@@ -21,7 +22,8 @@ class RatesModel {
   Map<String, double> rates;
 
   factory RatesModel.fromJson(Map<String, dynamic> json) => RatesModel(
-        disclaimer: json["disclaimer"],
+        disclaimer: json[""
+            "disclaimer"],
         license: json["license"],
         timestamp: json["timestamp"],
         base: json["base"],
@@ -100,3 +102,28 @@ class RateAll {
         'INR': inr,
       };
 }
+
+class AllCity {
+ final String str;
+
+  AllCity(
+      {required this.str});
+
+  factory AllCity.fromJson(Map<String , String> json) {
+    return switch (json) {
+      {
+      List: String str,
+
+      } =>
+          AllCity(
+            str: str
+          ),
+      _ => throw const FormatException(
+          'Failed to load Product from sub model class.'),
+    };
+  }
+
+}
+
+
+
