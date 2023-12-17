@@ -3,9 +3,6 @@ import 'dart:convert';
 RatesModel ratesModelFromJson(String str) =>
     RatesModel.fromJson(json.decode(str));
 
-AllCity getAllCity (String str) => AllCity.fromJson(json.decode(str));
-
-
 class RatesModel {
   RatesModel({
     required this.disclaimer,
@@ -103,27 +100,7 @@ class RateAll {
       };
 }
 
-class AllCity {
- final String str;
 
-  AllCity(
-      {required this.str});
-
-  factory AllCity.fromJson(Map<String , String> json) {
-    return switch (json) {
-      {
-      List: String str,
-
-      } =>
-          AllCity(
-            str: str
-          ),
-      _ => throw const FormatException(
-          'Failed to load Product from sub model class.'),
-    };
-  }
-
-}
 
 
 

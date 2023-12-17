@@ -15,11 +15,21 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final formkey = GlobalKey<FormState>();
+  late Future<Map> futureCurrencies;
+  late Future<RateList> futureRatesList;
+  late Future<RatesModel> futureRateModel;
+
+  @override
+  void initState() {
+    futureCurrencies = fetchCurrencies();
+    futureRatesList = fetchRatesList();
+    futureRateModel = fetchRates();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //Future Builder for Getting Exchange Rates
         body: Container(
       height: double.maxFinite,
       width: double.maxFinite,
@@ -29,14 +39,14 @@ class _HomeState extends State<Home> {
         child: Form(
           key: formkey,
           child: FutureBuilder<RatesModel>(
-            future: fetchRates(),
+            future: futureRateModel,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
               return Center(
                 child: FutureBuilder<Map>(
-                    future: fetchCurrencies(),
+                    future: futureCurrencies,
                     builder: (context, currSnapshot) {
                       if (currSnapshot.connectionState ==
                           ConnectionState.waiting) {
@@ -47,7 +57,7 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FutureBuilder<RateList>(
-                            future: fetchratesList(),
+                            future: futureRatesList,
                             builder: (context, priceList) {
                               if (currSnapshot.connectionState ==
                                   ConnectionState.waiting) {

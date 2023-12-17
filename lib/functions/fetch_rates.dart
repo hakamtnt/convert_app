@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 import '../models/currencies.dart';
+
 import '../models/ratesmodel.dart';
 import '../utils/key.dart';
 
@@ -23,20 +23,20 @@ Future<Map> fetchCurrencies() async {
 Future<List<String>> fetchAllCity() async {
   var response = await http
       .get(Uri.parse('https://timeapi.io/api/TimeZone/AvailableTimeZones'));
-  List<String> stringlist = (json.decode(response.body) as List<dynamic>).cast<String>();
-  //final allCity = getAllCity(response.body);
-print(stringlist);
-  return stringlist;
+  List<String> stringList =
+      (json.decode(response.body) as List<dynamic>).cast<String>();
+
+  return stringList;
 }
 
-
-
-Future<RateList> fetchratesList() async {
+Future<RateList> fetchRatesList() async {
   var response = await http.get(Uri.parse(
       'https://openexchangerates.org/api/latest.json?base=USD&app_id=$key'));
   final result = ratesList(response.body);
   return result;
 }
+
+
 
 String convertUsd(Map exchangeRates, String usd, String currency) {
   String output =

@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:forget_password/screens/home.dart';
 import 'package:forget_password/screens/page_any_to_any.dart';
-import 'package:forget_password/screens/time_converter.dart';
 import 'package:forget_password/styles/colors.dart';
+import 'package:forget_password/widgets/app_drawer.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
 
   @override
-  State<BottomNavigation> createState() =>
-      _BottomNavigationState();
+  State<BottomNavigation> createState() => _BottomNavigationState();
 }
 
-class _BottomNavigationState
-    extends State<BottomNavigation> {
+class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-   Home(),
-    PageAnyToAny(),
-    TimeConverter(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const Home(),
+    const PageAnyToAny(),
+    const Text('data'),
   ];
 
   void _onItemTapped(int index) {
@@ -30,8 +28,9 @@ class _BottomNavigationState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const MyAppDrawer(),
       appBar: AppBar(
-          title: const Text('Open Exchange'),
+        title: const Text('Open Exchange'),
         backgroundColor: blue,
       ),
       body: Center(
@@ -48,8 +47,8 @@ class _BottomNavigationState
             label: 'Any To Any',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.access_time),
-            label: 'Time Converter',
+            icon: Icon(Icons.person_2),
+            label: 'About Us',
           ),
         ],
         currentIndex: _selectedIndex,
