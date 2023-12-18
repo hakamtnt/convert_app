@@ -8,8 +8,8 @@ class CustomText {
     overflow: TextOverflow.ellipsis,
   );
   static  TextStyle textValue = TextStyle(
-    fontSize: 16,
-    color: primaryColor,
+    fontSize: 20,
+    color: white,
     fontWeight: FontWeight.bold,
   );
 }

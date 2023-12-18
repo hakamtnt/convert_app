@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import '../models/pick_time_modal.dart';
+import '../functions/time_converter.dart';
+import '../models/time_zone_modal.dart';
 import 'local_time.dart';
 
 class TimeConverterWidget extends StatefulWidget {
@@ -14,29 +15,28 @@ class TimeConverterWidget extends StatefulWidget {
 }
 
 class _TimeConverterWidgetState extends State<TimeConverterWidget> {
-  String dropdownValue = 'Africa/Abidjan';
+  String dropdownValue1 = 'Asia/Kolkata';
+  String dropdownValue2 = 'Africa/Accra';
 
   String answer = 'Converted Time will be shown here.';
 
   String formattedTime = (formatDate(DateTime.now(), [HH, ':', nn, ':', ss]));
   String formattedYear = (formatDate(DateTime.now(), [HH, ':', nn, ':', ss]));
   String hour = (formatDate(DateTime.now(), ['a']));
-  late Timer _timer;
-  late Future<PickTimeModel> futureTimepicker;
+  Timer? _timer;
+  Future<TimeZoneModel>? _futureTimepicker;
 
   @override
   void initState() {
     super.initState();
     _timer =
         Timer.periodic(const Duration(milliseconds: 500), (timer) => _update());
-    futureTimepicker = pickTime(zone: dropdownValue);
   }
 
   void _update() {
     setState(() {
       formattedTime = (formatDate(DateTime.now(), [HH, ':', nn, ':', ss]));
-      formattedYear = (formatDate(DateTime.now(), [d, '-', M, '-', yy]));
-
+      formattedYear = (formatDate(DateTime.now(), [m, '/', d, '/', yyyy]));
       hour = (formatDate(DateTime.now(), ['a']));
     });
   }
@@ -53,12 +53,14 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
         const SizedBox(
           height: 10,
         ),
-        FutureBuilder<PickTimeModel>(
-          future: futureTimepicker,
+        FutureBuilder<TimeZoneModel>(
+          future: _futureTimepicker,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return LocalTime(
-                  time: snapshot.data!.currentLocalTime, title: dropdownValue);
+                  time:
+                      "${snapshot.data!.conversionResult!.time}  / ${snapshot.data!.conversionResult!.date}",
+                  title: dropdownValue2);
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
@@ -82,7 +84,7 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
                   children: [
                     Expanded(
                       child: DropdownButton<String>(
-                        value: dropdownValue,
+                        value: dropdownValue1,
                         icon: const Icon(Icons.arrow_drop_down_rounded),
                         iconSize: 24,
                         elevation: 16,
@@ -93,8 +95,36 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
                         ),
                         onChanged: (String? newValue) {
                           setState(() {
-                            dropdownValue = newValue!;
-                            futureTimepicker;
+                            dropdownValue1 = newValue!;
+                          });
+                        },
+                        items: widget.allCity
+                            .toSet()
+                            .map<DropdownMenuItem<String>>((value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        child: const Text('To')),
+                    Expanded(
+                      child: DropdownButton<String>(
+                        value: dropdownValue2,
+                        icon: const Icon(Icons.arrow_drop_down_rounded),
+                        iconSize: 24,
+                        elevation: 16,
+                        isExpanded: true,
+                        underline: Container(
+                          height: 2,
+                          color: Colors.grey.shade400,
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue2 = newValue!;
                           });
                         },
                         items: widget.allCity
@@ -114,7 +144,9 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        futureTimepicker;
+                        _futureTimepicker = pickTime(dropdownValue1,
+                            DateTime.now().toString(), dropdownValue2, '');
+                        print("${dropdownValue1} ${dropdownValue2}");
                       });
                     },
                     style: ButtonStyle(

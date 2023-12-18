@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:forget_password/styles/style.dart';
 
+import '../Styles/colors.dart';
 import '../functions/fetch_rates.dart';
 
 class UsdToAny extends StatefulWidget {
@@ -24,10 +25,12 @@ class _UsdToAnyState extends State<UsdToAny> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
+    return Column(
+      children: [
+        Card(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -94,17 +97,32 @@ class _UsdToAnyState extends State<UsdToAny> {
                   ),
                 ),
                 //Final Output
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      answer,
-                      style: CustomText.textValue,
-                    )
-                  ],
-                )
-              ])),
+
+
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.all(15),
+              height: 70,
+
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: blue,
+              ),
+              child: Text(
+                answer,
+                style: CustomText.textValue,
+              ),
+            )
+          ],
+        ),
+      ],
     );
   }
 }

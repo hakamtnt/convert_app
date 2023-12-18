@@ -4,6 +4,8 @@ import 'package:forget_password/screens/page_any_to_any.dart';
 import 'package:forget_password/styles/colors.dart';
 import 'package:forget_password/widgets/app_drawer.dart';
 
+import 'about_us.dart';
+
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
 
@@ -16,7 +18,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   static final List<Widget> _widgetOptions = <Widget>[
     const Home(),
     const PageAnyToAny(),
-    const Text('data'),
+    AboutUs(),
   ];
 
   void _onItemTapped(int index) {
