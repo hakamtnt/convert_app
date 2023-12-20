@@ -22,10 +22,11 @@ Future<TimeZoneModel> pickTime(
     }),
   );
 
+
   if (response.statusCode == 200) {
     return TimeZoneModel.fromJson(
         json.decode(response.body) as Map<String, dynamic>);
   } else {
-    throw Exception('Failed to Get time Zone');
+    throw Exception('Failed to Get time Zone ');
   }
 }

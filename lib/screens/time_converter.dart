@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:forget_password/widgets/time_converter_widget.dart';
 
 import '../functions/fetch_rates.dart';
 import '../styles/colors.dart';
+
+var future = new Future.delayed(const Duration(milliseconds: 500), MyTimeConverter() as FutureOr Function()?);
 
 class MyTimeConverter extends StatefulWidget {
   MyTimeConverter({super.key});
@@ -15,9 +19,12 @@ class _MyTimeConverterState extends State<MyTimeConverter> {
   final formkey = GlobalKey<FormState>();
   late Future<List<String>> futureAllCity;
 
+
   @override
   void initState() {
     futureAllCity = fetchAllCity();
+
+
     super.initState();
   }
 

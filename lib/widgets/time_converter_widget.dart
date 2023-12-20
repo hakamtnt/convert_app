@@ -24,20 +24,34 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
   String formattedYear = (formatDate(DateTime.now(), [HH, ':', nn, ':', ss]));
   String hour = (formatDate(DateTime.now(), ['a']));
   Timer? _timer;
+
   Future<TimeZoneModel>? _futureTimepicker;
 
   @override
   void initState() {
     super.initState();
-    _timer =
-        Timer.periodic(const Duration(milliseconds: 500), (timer) => _update());
+    _timer = Timer.periodic(
+      const Duration(milliseconds: 500),
+      (timer) => _update(),
+    );
+    _timer = Timer.periodic(
+        const Duration(seconds: 1), (timer) => _converterTimeUpdate);
+
   }
 
-  void _update() {
+  Future<void> _update() async {
     setState(() {
       formattedTime = (formatDate(DateTime.now(), [HH, ':', nn, ':', ss]));
       formattedYear = (formatDate(DateTime.now(), [m, '/', d, '/', yyyy]));
-      hour = (formatDate(DateTime.now(), ['a']));
+
+    });
+  }
+
+ Future<void>  _converterTimeUpdate() async {
+    setState(() {
+      pickTime(
+              dropdownValue1, DateTime.now().toString(), dropdownValue2, '')
+          as Timer;
     });
   }
 
@@ -48,7 +62,7 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
       children: [
         LocalTime(
           title: 'Local Time',
-          time: "$formattedTime / $formattedYear",
+          time: " $formattedYear / $formattedTime",
         ),
         const SizedBox(
           height: 10,
@@ -59,12 +73,12 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
             if (snapshot.hasData) {
               return LocalTime(
                   time:
-                      "${snapshot.data!.conversionResult!.time}  / ${snapshot.data!.conversionResult!.date}",
+                      '${snapshot.data!.conversionResult.date} ${snapshot.data!.conversionResult.time}:${snapshot.data!.conversionResult.seconds}',
                   title: dropdownValue2);
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
-            return const CircularProgressIndicator();
+            return const Text('Convert Time');
           },
         ),
         const SizedBox(height: 20),
@@ -146,7 +160,6 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
                       setState(() {
                         _futureTimepicker = pickTime(dropdownValue1,
                             DateTime.now().toString(), dropdownValue2, '');
-                        print("${dropdownValue1} ${dropdownValue2}");
                       });
                     },
                     style: ButtonStyle(
@@ -164,3 +177,14 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
     );
   }
 }
+
+// class buildCountWidget extends StatelessWidget {
+//   final Future<TimeZoneModel> fc;
+//   final String title;
+//   const buildCountWidget({super.key, required this.fc, required this.title});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//   }
+// }
