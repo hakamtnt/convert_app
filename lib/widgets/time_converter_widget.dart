@@ -22,36 +22,21 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
 
   String formattedTime = (formatDate(DateTime.now(), [HH, ':', nn, ':', ss]));
   String formattedYear = (formatDate(DateTime.now(), [HH, ':', nn, ':', ss]));
+
+  String formattedTime1 = '1';
+  String formattedYear1 = '1';
+  DateTime convertedVal = DateTime.now();
+
   String hour = (formatDate(DateTime.now(), ['a']));
   Timer? _timer;
 
   Future<TimeZoneModel>? _futureTimepicker;
 
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(
-      const Duration(milliseconds: 500),
-      (timer) => _update(),
-    );
-    _timer = Timer.periodic(
-        const Duration(seconds: 1), (timer) => _converterTimeUpdate);
-
-  }
-
-  Future<void> _update() async {
+  Future<void> _converterTimeUpdate() async {
     setState(() {
-      formattedTime = (formatDate(DateTime.now(), [HH, ':', nn, ':', ss]));
-      formattedYear = (formatDate(DateTime.now(), [m, '/', d, '/', yyyy]));
-
-    });
-  }
-
- Future<void>  _converterTimeUpdate() async {
-    setState(() {
-      pickTime(
-              dropdownValue1, DateTime.now().toString(), dropdownValue2, '')
-          as Timer;
+      convertedVal = convertedVal.add(const Duration(seconds: 1));
+      formattedTime1 = (formatDate(convertedVal, [HH, ':', nn, ':', ss]));
+      formattedYear1 = (formatDate(convertedVal, [m, '/', d, '/', yyyy]));
     });
   }
 
@@ -71,9 +56,13 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
           future: _futureTimepicker,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              String dateTimeVal = snapshot.data!.conversionResult.dateTime;
+              convertedVal = DateTime.parse(dateTimeVal);
+              _converterTimeUpdate();
+              _timer = Timer.periodic(
+                  const Duration(seconds: 1), (timer) => _converterTimeUpdate);
               return LocalTime(
-                  time:
-                      '${snapshot.data!.conversionResult.date} ${snapshot.data!.conversionResult.time}:${snapshot.data!.conversionResult.seconds}',
+                  time: '${formattedYear1} ${formattedTime1}',
                   title: dropdownValue2);
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
@@ -177,14 +166,3 @@ class _TimeConverterWidgetState extends State<TimeConverterWidget> {
     );
   }
 }
-
-// class buildCountWidget extends StatelessWidget {
-//   final Future<TimeZoneModel> fc;
-//   final String title;
-//   const buildCountWidget({super.key, required this.fc, required this.title});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//
-//   }
-// }
